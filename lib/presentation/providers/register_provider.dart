@@ -26,17 +26,14 @@ class RegisterNotifier extends Notifier<RegisterState> {
     state = state.copyWith(password: value);
   }
 
-  void togglePasswordVisibility() {
-    state = state.copyWith(obscurePassword: !state.obscurePassword);
-  }
-
   Future<bool> register() async {
     if (state.isLoading) return false;
     state = state.copyWith(isLoading: true);
     try {
-      final Uri endpoint = Uri.parse('$_apiBaseUrl/auth/register');
       await Future<void>.delayed(const Duration(seconds: 2));
-      return endpoint.hasAuthority || _apiBaseUrl.isNotEmpty;
+      if (_apiBaseUrl.isEmpty) return true;
+      final Uri endpoint = Uri.parse('$_apiBaseUrl/auth/register');
+      return endpoint.hasAuthority;
     } finally {
       state = state.copyWith(isLoading: false);
     }
