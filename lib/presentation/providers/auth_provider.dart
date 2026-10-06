@@ -22,6 +22,10 @@ class AuthNotifier extends Notifier<AuthState> {
     state = state.copyWith(password: value);
   }
 
+  void togglePasswordVisibility() {
+    state = state.copyWith(obscurePassword: !state.obscurePassword);
+  }
+
   Future<bool> login() async {
     if (state.isLoading) return false;
     state = state.copyWith(isLoading: true);

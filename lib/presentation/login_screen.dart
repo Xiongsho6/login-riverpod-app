@@ -28,7 +28,7 @@ class LoginScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             TextField(
-              obscureText: true,
+              obscureText: authState.obscurePassword,
               decoration: const InputDecoration(
                 labelText: 'Contraseña',
                 prefixIcon: Icon(Icons.lock_outline),
@@ -36,7 +36,14 @@ class LoginScreen extends ConsumerWidget {
               ),
               onChanged: ref.read(authProvider.notifier).setPassword,
             ),
-            const SizedBox(height: 24),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Mostrar contraseña'),
+              value: !authState.obscurePassword,
+              onChanged: (_) =>
+                  ref.read(authProvider.notifier).togglePasswordVisibility(),
+            ),
+            const SizedBox(height: 8),
             FilledButton(
               onPressed: authState.isLoading
                   ? null
